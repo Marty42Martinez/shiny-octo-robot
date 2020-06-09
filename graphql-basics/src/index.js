@@ -1,12 +1,29 @@
-import myCurrentLocation, { message, name, getGreeting } from './myModule'
-import theRealAddinator, { subtractatron } from './math'
+import { GraphQLServer } from 'graphql-yoga'
 
-console.log(message)
-console.log(name)
-console.log(myCurrentLocation)
+// Type definitions (schema)
+const typeDefs = `
+    type Query {
+        hello: String!,
+        name: String!
+    }
+`
+// Resolvers
+const resolvers = {
+    Query: {
+        hello() {
+            return 'This is my first query!'
+        },
+        name() {
+            return 'Marty'
+        }
+    }
+}
 
-console.log(getGreeting("Jessica"))
+const server = new GraphQLServer({
+    typeDefs,
+    resolvers
+})
 
-console.log("ADD",theRealAddinator(5, 6))
-console.log('SUBTRACT', subtractatron(9,6))
-
+server.start(() => {
+    console.log("There's only one life-form as intelligent as me within thirty parsecs of here and that's me.")
+})
